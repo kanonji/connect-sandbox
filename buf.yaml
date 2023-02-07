@@ -1,0 +1,12 @@
+version: v1
+breaking:
+  use:
+    - FILE
+deps:
+  - buf.build/googleapis/googleapis
+lint:
+  use:
+    - DEFAULT
+  # `"google.protobuf.Empty" is used as the request or response type for multiple RPCs. (RPC_REQUEST_RESPONSE_UNIQUE)`
+  rpc_allow_google_protobuf_empty_requests: true
+  rpc_allow_google_protobuf_empty_responses: true

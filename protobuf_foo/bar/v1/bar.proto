@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package protobuf_foo.bar.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/type/month.proto";
+
+service BarService {
+    rpc Invoke(google.protobuf.Empty) returns (InvokeResponse) {}
+    rpc Get(GetRequest) returns (GetResponse) {}
+}
+
+message InvokeResponse {
+    int32 id = 1;
+    google.protobuf.Timestamp invoked_at = 2;
+}
+
+message GetRequest {
+    int32 id = 1;
+}
+
+message GetResponse {
+    int32 id = 1;
+    google.type.Month month = 2;
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package protobuf_foo.baz.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service BazService {
+    rpc Do(google.protobuf.Empty) returns (DoResponse) {}
+}
+
+message DoResponse {
+    int32 id = 1;
+    google.protobuf.Timestamp invoked_at = 2;
+}

@@ -1,0 +1,18 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: connect-sandbox/api/gen
+plugins:
+  - plugin: buf.build/protocolbuffers/go
+    out: api/gen
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/connect-go
+    out: api/gen
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/es
+    out: web/gen
+    opt: target=ts
+  - plugin: buf.build/bufbuild/connect-web
+    out: web/gen
+    opt: target=ts
