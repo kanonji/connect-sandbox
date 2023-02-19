@@ -9,10 +9,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"reflect"
+	"strings"
 
 	"github.com/bufbuild/connect-go"
 	connect_go "github.com/bufbuild/connect-go"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -60,20 +62,27 @@ func (*BazHandlers) Do(ctx context.Context, _ *connect_go.Request[emptypb.Empty]
 }
 
 func main() {
-	mux := http.NewServeMux()
-	mux.Handle(barv1connect.NewBarServiceHandler(&BarHandlers{}))
-	mux.Handle(bazv1connect.NewBazServiceHandler(&BazHandlers{}))
-
-	debugDumpRouting(mux)
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Mount(barv1connect.NewBarServiceHandler(&BarHandlers{}))
+	r.Mount(bazv1connect.NewBazServiceHandler(&BazHandlers{}))
+	debugDumpRoutingChi(r)
 
 	addr := "0.0.0.0:8888"
-	err := http.ListenAndServe(addr, h2c.NewHandler(mux, &http2.Server{}))
+	handler := h2c.NewHandler(r, &http2.Server{})
+	err := http.ListenAndServe(addr, handler)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func debugDumpRouting(mux *http.ServeMux) {
-	v := reflect.ValueOf(mux).Elem()
-	fmt.Printf("routes: %v\n", v.FieldByName("m"))
+func debugDumpRoutingChi(r *chi.Mux) {
+	walkFunc := func(method string, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {
+		route = strings.Replace(route, "/*/", "/", -1)
+		fmt.Printf("%s %s\n", method, route)
+		return nil
+	}
+	if err := chi.Walk(r, walkFunc); err != nil {
+		fmt.Printf("Logging err: %s\n", err.Error())
+	}
 }
