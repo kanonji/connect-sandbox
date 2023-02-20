@@ -15,6 +15,7 @@ import (
 	connect_go "github.com/bufbuild/connect-go"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/jwtauth/v5"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -61,9 +62,17 @@ func (*BazHandlers) Do(ctx context.Context, _ *connect_go.Request[emptypb.Empty]
 	return res, nil
 }
 
+var tokenAuth *jwtauth.JWTAuth
+
+func init() {
+	tokenAuth = jwtauth.New("HS256", []byte("secret"), nil)
+}
+
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	r.Use(jwtauth.Verifier(tokenAuth))
+	r.Use(jwtauth.Authenticator)
 	r.Mount(barv1connect.NewBarServiceHandler(&BarHandlers{}))
 	r.Mount(bazv1connect.NewBazServiceHandler(&BazHandlers{}))
 	debugDumpRoutingChi(r)
