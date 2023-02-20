@@ -71,9 +71,11 @@ func init() {
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Use(jwtauth.Verifier(tokenAuth))
-	r.Use(jwtauth.Authenticator)
-	r.Mount(barv1connect.NewBarServiceHandler(&BarHandlers{}))
+	r.Group(func(r chi.Router) {
+		r.Use(jwtauth.Verifier(tokenAuth))
+		r.Use(jwtauth.Authenticator)
+		r.Mount(barv1connect.NewBarServiceHandler(&BarHandlers{}))
+	})
 	r.Mount(bazv1connect.NewBazServiceHandler(&BazHandlers{}))
 	debugDumpRoutingChi(r)
 
