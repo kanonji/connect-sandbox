@@ -5,7 +5,7 @@
 package barv1connect
 
 import (
-	v1 "connect-sandbox/api/gen/protobuf_foo/bar/v1"
+	v1 "connect-sandbox/api/gen/protobuf/bar/v1"
 	context "context"
 	errors "errors"
 	connect_go "github.com/bufbuild/connect-go"

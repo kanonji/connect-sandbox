@@ -5,7 +5,7 @@
 package bazv1connect
 
 import (
-	v1 "connect-sandbox/api/gen/protobuf_foo/baz/v1"
+	v1 "connect-sandbox/api/gen/protobuf/baz/v1"
 	context "context"
 	errors "errors"
 	connect_go "github.com/bufbuild/connect-go"

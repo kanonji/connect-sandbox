@@ -1,10 +1,10 @@
 package main
 
 import (
-	barv1 "connect-sandbox/api/gen/protobuf_foo/bar/v1"
-	"connect-sandbox/api/gen/protobuf_foo/bar/v1/barv1connect"
-	bazv1 "connect-sandbox/api/gen/protobuf_foo/baz/v1"
-	"connect-sandbox/api/gen/protobuf_foo/baz/v1/bazv1connect"
+	barv1 "connect-sandbox/api/gen/protobuf/bar/v1"
+	"connect-sandbox/api/gen/protobuf/bar/v1/barv1connect"
+	bazv1 "connect-sandbox/api/gen/protobuf/baz/v1"
+	"connect-sandbox/api/gen/protobuf/baz/v1/bazv1connect"
 	context "context"
 	"fmt"
 	"log"
