@@ -1,4 +1,4 @@
-module connect-sandbox
+module connect-sandbox/api
 
 go 1.19
 
@@ -6,7 +6,9 @@ require (
 	github.com/bufbuild/connect-go v1.5.1
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/go-chi/jwtauth/v5 v5.1.0
+	github.com/invopop/validation v0.3.0
 	golang.org/x/net v0.7.0
+	google.golang.org/genproto v0.0.0-20230227214838-9b19f0bdc514
 	google.golang.org/protobuf v1.28.1
 )
 
