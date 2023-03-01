@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./api/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:8888
+    volumes:
+      - ./api:/go/src/app
