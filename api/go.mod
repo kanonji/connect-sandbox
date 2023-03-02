@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/bufbuild/connect-go v1.5.1
+	github.com/envoyproxy/protoc-gen-validate v0.9.1
 	github.com/go-chi/chi/v5 v5.0.8
 	github.com/go-chi/jwtauth/v5 v5.1.0
 	github.com/invopop/validation v0.3.0

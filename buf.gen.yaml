@@ -5,11 +5,15 @@ managed:
     default: connect-sandbox/api/gen
     except:
       - buf.build/googleapis/googleapis
+      - buf.build/envoyproxy/protoc-gen-validate
 plugins:
   - plugin: buf.build/protocolbuffers/go
     out: api/gen
     opt: paths=source_relative
   - plugin: buf.build/bufbuild/connect-go
+    out: api/gen
+    opt: paths=source_relative
+  - plugin: buf.build/bufbuild/validate-go
     out: api/gen
     opt: paths=source_relative
   - plugin: buf.build/bufbuild/es
