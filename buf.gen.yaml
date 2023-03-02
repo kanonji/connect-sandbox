@@ -3,6 +3,8 @@ managed:
   enabled: true
   go_package_prefix:
     default: connect-sandbox/api/gen
+    except:
+      - buf.build/googleapis/googleapis
 plugins:
   - plugin: buf.build/protocolbuffers/go
     out: api/gen

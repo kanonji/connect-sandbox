@@ -7,7 +7,7 @@
 package barv1
 
 import (
-	_type "connect-sandbox/api/gen/google/type"
+	month "google.golang.org/genproto/googleapis/type/month"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -131,7 +131,7 @@ type GetResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Id    int32       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Month _type.Month `protobuf:"varint,2,opt,name=month,proto3,enum=google.type.Month" json:"month,omitempty"`
+	Month month.Month `protobuf:"varint,2,opt,name=month,proto3,enum=google.type.Month" json:"month,omitempty"`
 }
 
 func (x *GetResponse) Reset() {
@@ -173,11 +173,11 @@ func (x *GetResponse) GetId() int32 {
 	return 0
 }
 
-func (x *GetResponse) GetMonth() _type.Month {
+func (x *GetResponse) GetMonth() month.Month {
 	if x != nil {
 		return x.Month
 	}
-	return _type.Month(0)
+	return month.Month(0)
 }
 
 var File_protobuf_bar_v1_bar_proto protoreflect.FileDescriptor
@@ -245,7 +245,7 @@ var file_protobuf_bar_v1_bar_proto_goTypes = []interface{}{
 	(*GetRequest)(nil),            // 1: protobuf.bar.v1.GetRequest
 	(*GetResponse)(nil),           // 2: protobuf.bar.v1.GetResponse
 	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
-	(_type.Month)(0),              // 4: google.type.Month
+	(month.Month)(0),              // 4: google.type.Month
 	(*emptypb.Empty)(nil),         // 5: google.protobuf.Empty
 }
 var file_protobuf_bar_v1_bar_proto_depIdxs = []int32{
