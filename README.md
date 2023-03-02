@@ -12,5 +12,5 @@ $ go work sync # maybe same as `cd api && go mod tidy`?
 
 ```
 $ cd connect-sandbox
-$ buf generate --include-imports
+$ buf generate # may need `--include-imports`, but maybe not?
 ```
