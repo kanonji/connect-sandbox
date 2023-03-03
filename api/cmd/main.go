@@ -32,29 +32,15 @@ func (*BarHandlers) Get(ctx context.Context, req *connect_go.Request[barv1.GetRe
 	err := req.Msg.ValidateAll()
 	var validationErrors barv1.GetRequestMultiError
 	if errors.As(err, &validationErrors) {
-		cerr := connect.NewError(connect.CodeInvalidArgument, err)
-		badRequest := &errdetails.BadRequest{}
-		for _, err := range validationErrors.AllErrors() {
-			log.Println(err)
-			var verr barv1.GetRequestValidationError
-			if errors.As(err, &verr) {
-				badRequest.FieldViolations = append(badRequest.FieldViolations, &errdetails.BadRequest_FieldViolation{
-					Field:       verr.Field(),
-					Description: verr.Reason(),
-				})
-			} else {
-				panic(err)
-			}
-		}
-		errorDetail, errInErr := connect.NewErrorDetail(badRequest)
+		cerr, errInErr := makeValidationError(validationErrors)
 		if errInErr != nil {
-			panic(errInErr)
+			log.Println(errInErr)
+			return nil, connect.NewError(connect.CodeInternal, errInErr)
 		}
-		cerr.AddDetail(errorDetail)
 		return nil, cerr
 	}
 	if err != nil {
-		log.Println(err)
+		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 	res := connect.NewResponse(&barv1.GetResponse{
 		Id:    req.Msg.Id,
@@ -125,4 +111,40 @@ func debugDumpRoutingChi(r *chi.Mux) {
 	if err := chi.Walk(r, walkFunc); err != nil {
 		fmt.Printf("Logging err: %s\n", err.Error())
 	}
+}
+
+type multiError interface {
+	Error() string
+	AllErrors() []error
+}
+
+type validationError interface {
+	Field() string
+	Reason() string
+	Cause() error
+	Key() bool
+	ErrorName() string
+	Error() string
+}
+
+func makeValidationError(validationErrors multiError) (error, error) {
+	connectError := connect.NewError(connect.CodeInvalidArgument, validationErrors)
+	badRequest := &errdetails.BadRequest{}
+	for _, err := range validationErrors.AllErrors() {
+		var verr validationError
+		if errors.As(err, &verr) {
+			badRequest.FieldViolations = append(badRequest.FieldViolations, &errdetails.BadRequest_FieldViolation{
+				Field:       verr.Field(),
+				Description: verr.Reason(),
+			})
+		} else {
+			return nil, fmt.Errorf("errors.As(err, validationError) failed: %w", err)
+		}
+	}
+	errorDetail, err := connect.NewErrorDetail(badRequest)
+	if err != nil {
+		return nil, fmt.Errorf("connect.NewErrorDetail(badRequest) failed: %w", err)
+	}
+	connectError.AddDetail(errorDetail)
+	return connectError, nil
 }
