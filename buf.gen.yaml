@@ -19,6 +19,6 @@ plugins:
   - plugin: buf.build/bufbuild/es
     out: web/gen
     opt: target=ts
-  - plugin: buf.build/bufbuild/connect-web
+  - plugin: buf.build/bufbuild/connect-es
     out: web/gen
     opt: target=ts
