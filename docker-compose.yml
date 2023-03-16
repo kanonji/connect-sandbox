@@ -7,6 +7,6 @@ services:
       dockerfile: ./api/docker/Dockerfile
     restart: unless-stopped
     ports:
-      - ${APP_PORT}:8888
+      - ${APP_PORT}:80
     volumes:
       - ./api:/go/src/app

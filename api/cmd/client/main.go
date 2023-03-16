@@ -1,8 +1,8 @@
 package main
 
 import (
-	barv1 "connect-sandbox/api/gen/protobuf/bar/v1"
-	"connect-sandbox/api/gen/protobuf/bar/v1/barv1connect"
+	barv1 "connect-sandbox/api/gen/bar/v1"
+	"connect-sandbox/api/gen/bar/v1/barv1connect"
 	"context"
 	"errors"
 	"log"
@@ -21,7 +21,7 @@ func init() {
 func main() {
 	client := barv1connect.NewBarServiceClient(
 		http.DefaultClient,
-		"http://localhost:8889",
+		"http://localhost:8888",
 	)
 	req := connect.NewRequest(&barv1.GetRequest{
 		Id:   10,

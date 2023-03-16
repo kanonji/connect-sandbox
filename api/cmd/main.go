@@ -1,11 +1,11 @@
 package main
 
 import (
-	barv1 "connect-sandbox/api/gen/protobuf/bar/v1"
-	"connect-sandbox/api/gen/protobuf/bar/v1/barv1connect"
-	bazv1 "connect-sandbox/api/gen/protobuf/baz/v1"
-	"connect-sandbox/api/gen/protobuf/baz/v1/bazv1connect"
-	context "context"
+	barv1 "connect-sandbox/api/gen/bar/v1"
+	"connect-sandbox/api/gen/bar/v1/barv1connect"
+	bazv1 "connect-sandbox/api/gen/baz/v1"
+	"connect-sandbox/api/gen/baz/v1/bazv1connect"
+	"context"
 	"errors"
 	"fmt"
 	"log"
@@ -13,7 +13,6 @@ import (
 	"strings"
 
 	"github.com/bufbuild/connect-go"
-	connect_go "github.com/bufbuild/connect-go"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth/v5"
@@ -27,7 +26,7 @@ import (
 type BarHandlers struct{}
 
 // Get implements barv1connect.BarServiceHandler
-func (*BarHandlers) Get(ctx context.Context, req *connect_go.Request[barv1.GetRequest]) (*connect_go.Response[barv1.GetResponse], error) {
+func (*BarHandlers) Get(ctx context.Context, req *connect.Request[barv1.GetRequest]) (*connect.Response[barv1.GetResponse], error) {
 	log.Println("Bar.Get()")
 	err := req.Msg.ValidateAll()
 	var validationErrors barv1.GetRequestMultiError
@@ -50,7 +49,7 @@ func (*BarHandlers) Get(ctx context.Context, req *connect_go.Request[barv1.GetRe
 }
 
 // Invoke implements barv1connect.BarServiceHandler
-func (*BarHandlers) Invoke(ctx context.Context, _ *connect_go.Request[emptypb.Empty]) (*connect_go.Response[barv1.InvokeResponse], error) {
+func (*BarHandlers) Invoke(ctx context.Context, _ *connect.Request[emptypb.Empty]) (*connect.Response[barv1.InvokeResponse], error) {
 	log.Println("Bar.Invoke()")
 	res := connect.NewResponse(&barv1.InvokeResponse{
 		Id: 1,
@@ -65,7 +64,7 @@ func (*BarHandlers) Invoke(ctx context.Context, _ *connect_go.Request[emptypb.Em
 type BazHandlers struct{}
 
 // Do implements bazv1connect.BazServiceHandler
-func (*BazHandlers) Do(ctx context.Context, _ *connect_go.Request[emptypb.Empty]) (*connect_go.Response[bazv1.DoResponse], error) {
+func (*BazHandlers) Do(ctx context.Context, _ *connect.Request[emptypb.Empty]) (*connect.Response[bazv1.DoResponse], error) {
 	log.Println("Baz.Do()")
 	res := connect.NewResponse(&bazv1.DoResponse{
 		Id: 1,
@@ -94,7 +93,7 @@ func main() {
 	r.Mount(bazv1connect.NewBazServiceHandler(&BazHandlers{}))
 	debugDumpRoutingChi(r)
 
-	addr := "0.0.0.0:8889"
+	addr := "0.0.0.0:80"
 	handler := h2c.NewHandler(r, &http2.Server{})
 	err := http.ListenAndServe(addr, handler)
 	if err != nil {
