@@ -10,3 +10,13 @@ services:
       - ${APP_PORT}:80
     volumes:
       - ./api:/go/src/app
+  api-mock:
+    build:
+      context: .
+      dockerfile: ./web/mock-server/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${API_MOCK_PORT}:3000
+    volumes:
+      - ./web:/go/src/app
+    tty: true
