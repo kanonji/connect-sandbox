@@ -1,11 +1,11 @@
 import { ConnectRouter } from "@bufbuild/connect"
 import { connectNodeAdapter } from "@bufbuild/connect-node"
-import { ElizaService } from "../web/gen/eliza/v1/eliza_connect"
+import { ElizaService } from "./gen/eliza/v1/eliza_connect"
 import {
   SayRequest,
   IntroduceRequest,
   ConverseRequest,
-} from "../web/gen/eliza/v1/eliza_pb"
+} from "./gen/eliza/v1/eliza_pb"
 import { Empty } from "@bufbuild/protobuf"
 import http2 from "http2"
 import { readFileSync } from "fs";

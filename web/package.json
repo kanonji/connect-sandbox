@@ -1,8 +1,0 @@
-{
-  "name": "connect-sandbox-web",
-  "private": true,
-  "type": "module",
-  "dependencies": {
-    "@bufbuild/protobuf": "^1.0.0"
-  }
-}
