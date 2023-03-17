@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "tsx server.ts"
+    "start": "tsx server.ts",
+    "watch": "tsx --watch server.ts"
   },
   "engines": {
     "node": ">=16.0.0 <19"

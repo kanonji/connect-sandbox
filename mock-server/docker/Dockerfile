@@ -11,4 +11,4 @@ COPY --from=builder /build/node_modules /node_modules
 RUN chown node:node -R /node_modules
 EXPOSE 3000 
 WORKDIR /workdir/mock-server
-CMD rm -fR ./node_modules && cp -a /node_modules . && npm start
+CMD rm -fR ./node_modules && cp -a /node_modules . && npm run watch
