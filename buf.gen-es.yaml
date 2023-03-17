@@ -1,0 +1,17 @@
+version: v1
+managed:
+  enabled: true
+plugins:
+  - plugin: buf.build/bufbuild/es
+    out: web/gen
+    opt: target=ts
+  - plugin: buf.build/bufbuild/connect-es
+    out: web/gen
+    opt: target=ts
+  - plugin: buf.build/bufbuild/es
+    out: mock-server/gen
+    opt: target=ts
+  - plugin: buf.build/bufbuild/connect-es
+    out: mock-server/gen
+    opt: target=ts
+
